@@ -68,22 +68,35 @@ void printCard(const Card &card)
 
     default:            cout << 'x';
   }
+  cout << '\n';
+}
+
+void printDeck(const array<Card, MAX_RANKS * MAX_SUITS> &deck)
+{
+  for(const auto &card : deck)
+    printCard(card);
+    cout << ' ';
 }
 
 int main()
 {
 
   array<Card, MAX_RANKS * MAX_SUITS> cardDeck;
+  int *card = new int;
+  *card = 0;
 
-  for(int rank = 0; rank < MAX_RANKS; ++rank)
+  for(int suit = 0; suit < MAX_SUITS; ++suit)
   {
-    for(int suit = 0; suit < MAX_SUITS; ++suit)
+    for(int rank = 0; rank < MAX_RANKS; ++rank)
     {
-      cardDeck[rank].rank = static_cast<CardRank>(rank);
-      cardDeck[rank].suit = static_cast<CardSuit>(suit);
-      printCard(cardDeck[rank]);
-      cout << " ";
+      cardDeck[*card].rank = static_cast<CardRank>(rank);
+      cardDeck[*card].suit = static_cast<CardSuit>(suit);
+      ++(*card);
     }
   }
+
+  cout << "\n\n";
+
+  printDeck(cardDeck);
 
 }
