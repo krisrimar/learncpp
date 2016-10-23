@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <algorithm>
+#include <array>
 
 using namespace std;
 
@@ -38,9 +39,9 @@ struct Card
   CardSuit suit;
 };
 
-void printCard(Card *card)
+void printCard(const Card &card)
 {
-  switch (card->rank)
+  switch (card.rank)
   {
     case RANK_2:      cout << '2';  break;
     case RANK_3:      cout << '3';  break;
@@ -50,7 +51,7 @@ void printCard(Card *card)
     case RANK_7:      cout << '7';  break;
     case RANK_8:      cout << '8';  break;
     case RANK_9:      cout << '9';  break;
-    case RANK_10:     cout << 'T'; break;
+    case RANK_10:     cout << 'T';  break;
     case RANK_JACK:   cout << 'J';  break;
     case RANK_QUEEN:  cout << 'Q';  break;
     case RANK_KING:   cout << 'K';  break;
@@ -58,7 +59,7 @@ void printCard(Card *card)
 
     default:          cout << 'X';
   }
-  switch (card->suit)
+  switch (card.suit)
   {
     case SUIT_SPADES:   cout << 'S';  break;
     case SUIT_HEARTS:   cout << 'H';  break;
@@ -71,9 +72,18 @@ void printCard(Card *card)
 
 int main()
 {
-  Card *card1 = new Card;
-  card1->rank = RANK_JACK;
-  card1->suit = SUIT_HEARTS;
-  printCard(card1);
+
+  array<Card, MAX_RANKS * MAX_SUITS> cardDeck;
+
+  for(int rank = 0; rank < MAX_RANKS; ++rank)
+  {
+    for(int suit = 0; suit < MAX_SUITS; ++suit)
+    {
+      cardDeck[rank].rank = static_cast<CardRank>(rank);
+      cardDeck[rank].suit = static_cast<CardSuit>(suit);
+      printCard(cardDeck[rank]);
+      cout << " ";
+    }
+  }
 
 }
