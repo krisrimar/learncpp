@@ -30,6 +30,11 @@ enum CardSuit {
   MAX_SUITS
 };
 
+struct Card {
+  CardRank rank;
+  CardSuit suit;
+};
+
 int main()
 {
 
