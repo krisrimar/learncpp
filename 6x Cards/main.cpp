@@ -144,11 +144,12 @@ bool hitOrStand()
     {
       cin.clear();
       cin.ignore(32767,'\n');
-      cout << "\nWrong input!\n";
+      cout << "\nWrong input!\n\n";
     }
     else
     {
       cin.ignore(32767,'\n');
+      cout << '\n';
       if(*option == 'h')
         return true; //in case of a hit
       else
@@ -195,7 +196,6 @@ int main()
   cout << "\n\n";
 
   //set initial player cards and score
-  cout << '\n';
   cout << player_gets_cards;
   printCard(cardDeck[*currentCardIndex]);
   *playerScore = getCardValue(cardDeck[*currentCardIndex]);
@@ -213,17 +213,13 @@ int main()
   cout << " (score: " << *dealerScore << ")\n";
   ++*currentCardIndex;
 
-  bool playGame = true;
-  bool *takeCard = new bool; //for determining whether the player skipped taking the card or not
-
   cout << '\n';
 
-  while(playGame)
+  while(true)
   {
 
     //players move
-    *takeCard = hitOrStand();
-    if(*takeCard)
+    if(hitOrStand())
     {
       cout << player_gets_card;
       printCard(cardDeck[*currentCardIndex]);
