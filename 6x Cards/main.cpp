@@ -213,6 +213,27 @@ int main()
   cout << " (score: " << *dealerScore << ")\n";
   ++*currentCardIndex;
 
+  //initial check for draw
+  if(*playerScore <= 21 && *dealerScore <= 21 && *playerScore == *dealerScore)
+  {
+    cout << "\nIt's a draw! :D";
+    return 0;
+  }
+
+  //initial check for lost
+  if(*playerScore > 21 || *dealerScore == 21)
+  {
+    cout << "\nYou lost :(";
+    return 0;
+  }
+
+  //initial check for win
+  if(*dealerScore > 21 || *playerScore == 21)
+  {
+    cout << "\nYou won! :D";
+    return 0;
+  }
+
   cout << '\n';
 
   while(true)
@@ -230,6 +251,13 @@ int main()
     else
     {
       cout << player_skips_turn << " (score: " << *playerScore << ")\n";
+    }
+
+    //game draw for player check
+    if(*playerScore <= 21 && *dealerScore <= 21 && *playerScore == *dealerScore)
+    {
+      cout << "It's a draw! :D";
+      break;
     }
 
     //game lost for player check
