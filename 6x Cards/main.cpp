@@ -79,6 +79,7 @@ int getRandomNumber(int min, int max)
     return static_cast<int>(rand() * fraction * (max - min + 1) + min);
 }
 
+//goes throught the each element of the card deck and prints it
 void printDeck(const array<Card, MAX_RANKS * MAX_SUITS> &deck)
 {
   for(const auto &card : deck)
@@ -87,11 +88,13 @@ void printDeck(const array<Card, MAX_RANKS * MAX_SUITS> &deck)
   }
 }
 
+//swaps values of two cards in the deck array
 void swapCards(Card &card1, Card &card2)
 {
   swap(card1, card2);
 }
 
+//swaps the card at current index with a card at random index
 void shuffleDeck(array<Card, MAX_RANKS * MAX_SUITS> &deck)
 {
   for(int index = 0; index < MAX_RANKS * MAX_SUITS; ++index)
