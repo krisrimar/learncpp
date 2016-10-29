@@ -78,6 +78,16 @@ void printDeck(const array<Card, MAX_RANKS * MAX_SUITS> &deck)
     cout << ' ';
 }
 
+void swapCards(Card &card1, Card &card2)
+{
+  printCard(card1);
+  printCard(card2);
+  swap(card1, card2);
+  cout << "\n\n";
+  printCard(card1);
+  printCard(card2);
+}
+
 int main()
 {
 
@@ -98,5 +108,9 @@ int main()
   cout << "\n\n";
 
   printDeck(cardDeck);
+
+  cout << "\n\n";
+
+  swapCards(cardDeck[0], cardDeck[1]);
 
 }
