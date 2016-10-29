@@ -99,7 +99,7 @@ void shuffleDeck(array<Card, MAX_RANKS * MAX_SUITS> &deck)
 {
   for(int index = 0; index < MAX_RANKS * MAX_SUITS; ++index)
   {
-    swapCards(deck[index], deck[getRandomNumber(1,(MAX_RANKS * MAX_SUITS -1))]);
+    swapCards(deck[index], deck[getRandomNumber(0,(MAX_RANKS * MAX_SUITS -1))]);
   }
 }
 
