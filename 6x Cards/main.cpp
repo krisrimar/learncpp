@@ -3,6 +3,7 @@
 #include <string>
 #include <algorithm>
 #include <array>
+#include <ctime>
 
 using namespace std;
 
@@ -71,30 +72,46 @@ void printCard(const Card &card)
   cout << '\n';
 }
 
+int getRandomNumber(int min, int max)
+{
+    static const double fraction = 1.0 / (static_cast<double>(RAND_MAX) + 1.0);  // static used for efficiency, so we only calculate this value once
+    // evenly distribute the random number across our range
+    return static_cast<int>(rand() * fraction * (max - min + 1) + min);
+}
+
 void printDeck(const array<Card, MAX_RANKS * MAX_SUITS> &deck)
 {
   for(const auto &card : deck)
+  {
     printCard(card);
-    cout << ' ';
+  }
 }
 
 void swapCards(Card &card1, Card &card2)
 {
-  printCard(card1);
-  printCard(card2);
   swap(card1, card2);
-  cout << "\n\n";
-  printCard(card1);
-  printCard(card2);
+}
+
+void shuffleDeck(array<Card, MAX_RANKS * MAX_SUITS> &deck)
+{
+  for(int index = 0; index < MAX_RANKS * MAX_SUITS; ++index)
+  {
+    swapCards(deck[index], deck[getRandomNumber(1,(MAX_RANKS * MAX_SUITS -1))]);
+  }
 }
 
 int main()
 {
 
+  //set up the random number generator
+  srand(static_cast<unsigned int>(time(0)));
+
+  //array for the card deck
   array<Card, MAX_RANKS * MAX_SUITS> cardDeck;
   int *card = new int;
   *card = 0;
 
+//create the cards for the deck
   for(int suit = 0; suit < MAX_SUITS; ++suit)
   {
     for(int rank = 0; rank < MAX_RANKS; ++rank)
@@ -105,12 +122,7 @@ int main()
     }
   }
 
-  cout << "\n\n";
-
+  shuffleDeck(cardDeck);
   printDeck(cardDeck);
-
-  cout << "\n\n";
-
-  swapCards(cardDeck[0], cardDeck[1]);
 
 }
