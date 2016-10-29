@@ -7,6 +7,12 @@
 
 using namespace std;
 
+const string dealer_gets_card   = "The dealer gets card ";
+const string player_gets_card   = "You get card ";
+const string player_gets_cards  = "You get cards ";
+const string dealer_skips_turn  = "The dealer skips his turn";
+const string player_skips_turn  = "You skip your turn";
+
 enum CardRank
 {
   RANK_2,
@@ -136,19 +142,17 @@ bool hitOrStand()
 
     if(cin.fail() || (*option != 'h' && *option != 's'))
     {
-      cout << ">";
       cin.clear();
       cin.ignore(32767,'\n');
       cout << "\nWrong input!\n";
     }
     else
     {
-      cout << ">>>";
       cin.ignore(32767,'\n');
       if(*option == 'h')
-        return false;
+        return true; //in case of a hit
       else
-        return true;
+        return false; //in case of a stand
     }
   }
 }
@@ -190,28 +194,84 @@ int main()
 
   cout << "\n\n";
 
-  cout << "The dealer gets card ";
-  printCard(cardDeck[*currentCardIndex]);
-  *dealerScore = getCardValue(cardDeck[*currentCardIndex]);
-
-  cout << " (score: " << *dealerScore << ")\n";
-
-  ++*currentCardIndex;
-
+  //set initial player cards and score
   cout << '\n';
-  cout << "The player gets cards ";
+  cout << player_gets_cards;
   printCard(cardDeck[*currentCardIndex]);
   *playerScore = getCardValue(cardDeck[*currentCardIndex]);
   ++*currentCardIndex;
+  cout << ' ';
   printCard(cardDeck[*currentCardIndex]);
   *playerScore += getCardValue(cardDeck[*currentCardIndex]);
   cout << " (score: " << *playerScore << ")\n";
+  ++*currentCardIndex;
+
+  //set initial dealer cards and score
+  cout << dealer_gets_card;
+  printCard(cardDeck[*currentCardIndex]);
+  *dealerScore = getCardValue(cardDeck[*currentCardIndex]);
+  cout << " (score: " << *dealerScore << ")\n";
+  ++*currentCardIndex;
 
   bool playGame = true;
+  bool *takeCard = new bool; //for determining whether the player skipped taking the card or not
+
+  cout << '\n';
 
   while(playGame)
   {
-    hitOrStand();
-    playGame = false;
+
+    //players move
+    *takeCard = hitOrStand();
+    if(*takeCard)
+    {
+      cout << player_gets_card;
+      printCard(cardDeck[*currentCardIndex]);
+      *playerScore += getCardValue(cardDeck[*currentCardIndex]);
+      cout << " (score: " << *playerScore << ")\n";
+      ++*currentCardIndex;
+    }
+    else
+    {
+      cout << player_skips_turn << " (score: " << *playerScore << ")\n";
+    }
+
+    //game lost for player check
+    if(*playerScore > 21)
+    {
+      cout << "You lost :(";
+      break;
+    }
+
+    //game won for player check
+    if(*playerScore > *dealerScore && *dealerScore >= 17)
+    {
+      cout << "You won! :D";
+      break;
+    }
+
+    //dealers move
+    if(*dealerScore < 17)
+    {
+      cout << dealer_gets_card;
+      printCard(cardDeck[*currentCardIndex]);
+      *dealerScore += getCardValue(cardDeck[*currentCardIndex]);
+      cout << " (score: " << *dealerScore << ")\n";
+      ++*currentCardIndex;
+    }
+    else
+    {
+      cout << dealer_skips_turn;
+      cout << " (score: " << *dealerScore << ")\n";
+      ++*currentCardIndex;
+    }
+
+    if(*dealerScore > 21)
+    {
+      cout << "You won! :D";
+      break;
+    }
+
+    cout << '\n';
   }
 }
