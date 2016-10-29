@@ -69,7 +69,6 @@ void printCard(const Card &card)
 
     default:            cout << 'x';
   }
-  cout << '\n';
 }
 
 int getRandomNumber(int min, int max)
@@ -85,6 +84,7 @@ void printDeck(const array<Card, MAX_RANKS * MAX_SUITS> &deck)
   for(const auto &card : deck)
   {
     printCard(card);
+    cout << ' ';
   }
 }
 
@@ -125,6 +125,34 @@ int getCardValue(const Card &card)
   }
 }
 
+//taking user input to determine whether to take a card or skip the turn
+bool hitOrStand()
+{
+  char *option = new char;
+  while(true)
+  {
+    cout << "Do you wish to hit or stand? (h/s): ";
+    cin >> *option;
+
+    if(cin.fail() || (*option != 'h' && *option != 's'))
+    {
+      cout << ">";
+      cin.clear();
+      cin.ignore(32767,'\n');
+      cout << "\nWrong input!\n";
+    }
+    else
+    {
+      cout << ">>>";
+      cin.ignore(32767,'\n');
+      if(*option == 'h')
+        return false;
+      else
+        return true;
+    }
+  }
+}
+
 int main()
 {
 
@@ -136,7 +164,7 @@ int main()
   int *card = new int;
   *card = 0;
 
-//create the cards for the deck
+  //create the cards for the deck
   for(int suit = 0; suit < MAX_SUITS; ++suit)
   {
     for(int rank = 0; rank < MAX_RANKS; ++rank)
@@ -147,9 +175,43 @@ int main()
     }
   }
 
+  cout << "Shuffling cards...\n\n";
+
   shuffleDeck(cardDeck);
   printDeck(cardDeck);
 
-  cout << getCardValue(cardDeck[0]);
+  //initialize the card index that will be used to receive card value
+  int *currentCardIndex = new int;
+  *currentCardIndex = 0;
 
+  //initialize player and dealer score
+  int *playerScore = new int;
+  int *dealerScore = new int;
+
+  cout << "\n\n";
+
+  cout << "The dealer gets card ";
+  printCard(cardDeck[*currentCardIndex]);
+  *dealerScore = getCardValue(cardDeck[*currentCardIndex]);
+
+  cout << " (score: " << *dealerScore << ")\n";
+
+  ++*currentCardIndex;
+
+  cout << '\n';
+  cout << "The player gets cards ";
+  printCard(cardDeck[*currentCardIndex]);
+  *playerScore = getCardValue(cardDeck[*currentCardIndex]);
+  ++*currentCardIndex;
+  printCard(cardDeck[*currentCardIndex]);
+  *playerScore += getCardValue(cardDeck[*currentCardIndex]);
+  cout << " (score: " << *playerScore << ")\n";
+
+  bool playGame = true;
+
+  while(playGame)
+  {
+    hitOrStand();
+    playGame = false;
+  }
 }
