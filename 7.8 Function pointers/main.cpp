@@ -2,6 +2,9 @@
 
 using namespace std;
 
+//a typedef for a fucntion that takes 2 ints as parameters and returns an int
+typedef int (*arithmeticFcn) (int, int);
+
 int getNumber()
 {
   cout << "Enter number: ";
