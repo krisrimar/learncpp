@@ -2,6 +2,12 @@
 
 using namespace std;
 
+struct arithmeticStruct
+{
+  char op;
+  arithmeticFcn fnc;
+};
+
 int getNumber()
 {
   cout << "Enter number: ";
