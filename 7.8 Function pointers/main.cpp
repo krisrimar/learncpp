@@ -2,7 +2,7 @@
 
 using namespace std;
 
-//a typedef for a fucntion that takes 2 ints as parameters and returns an int
+//a typedef for a function that takes 2 ints as parameters and returns an int
 typedef int (*arithmeticFcn) (int, int);
 
 int getNumber()
@@ -50,6 +50,18 @@ int divide(int x, int y)
   }
   else
     return x / y;
+}
+
+arithmeticFcn getArithmeticFunction(char mathOperator)
+{
+  switch (mathOperator)
+  {
+    case '+': return add;
+    case '-': return subtract;
+    case '/': return divide;
+    case '*': return multiply;
+    default: return 0;
+  }
 }
 
 int main()
