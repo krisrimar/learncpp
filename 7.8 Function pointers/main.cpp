@@ -2,12 +2,6 @@
 
 using namespace std;
 
-struct arithmeticStruct
-{
-  char op;
-  arithmeticFcn fnc;
-};
-
 int getNumber()
 {
   cout << "Enter number: ";
@@ -70,6 +64,14 @@ arithmeticFcn getArithmeticFunction(char op)
     case '*': return multiply;
   }
 }
+
+struct arithmeticStruct
+{
+  char op;
+  arithmeticFcn fnc;
+};
+
+static arithmeticStruct arithmeticArray[] = {{'+',add},{'-',subtract},{'*',multiply},{'/',divide}};
 
 int main()
 {
