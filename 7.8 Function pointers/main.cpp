@@ -2,9 +2,6 @@
 
 using namespace std;
 
-//a typedef for a function that takes 2 ints as parameters and returns an int
-typedef int (*arithmeticFcn) (int, int);
-
 int getNumber()
 {
   cout << "Enter number: ";
@@ -15,15 +12,15 @@ int getNumber()
 
 char getOperator()
 {
-  char mathOperator;
+  char op;
   do
   {
     cout << "Enter operator: ";
-    cin >> mathOperator;
+    cin >> op;
   }
-  while(mathOperator != '+' && mathOperator != '-' && mathOperator != '/' && mathOperator != '*');
+  while(op != '+' && op != '-' && op != '/' && op != '*');
 
-  return mathOperator;
+  return op;
 }
 
 int add(int x, int y)
@@ -52,10 +49,13 @@ int divide(int x, int y)
     return x / y;
 }
 
+//a typedef for a function that takes 2 ints as parameters and returns an int
+typedef int (*arithmeticFcn) (int, int);
+
 //takes an arithmetic operator as a parameter and returns a pointer to a function
-arithmeticFcn getArithmeticFunction(char mathOperator)
+arithmeticFcn getArithmeticFunction(char op)
 {
-  switch (mathOperator)
+  switch (op)
   {
     default:
     case '+': return add;
@@ -67,14 +67,14 @@ arithmeticFcn getArithmeticFunction(char mathOperator)
 
 int main()
 {
-  int number1       = getNumber();
-  char mathOperator = getOperator();
-  int number2       = getNumber();
+  int x     = getNumber();
+  char op   = getOperator();
+  int y     = getNumber();
 
   //create a variable of type int functionName(int, int) and assign it the value that the getArithmeticFunction will return (which will return a pointer to a function)
-  arithmeticFcn fnc = getArithmeticFunction(mathOperator);
+  arithmeticFcn fnc = getArithmeticFunction(op);
 
-  cout << number1 << " " << mathOperator << " " << number2 << " = " << fnc(number1, number2);
+  cout << x << " " << op << " " << y << " = " << fnc(x, y);
   cout << endl;
 
   return 0;
