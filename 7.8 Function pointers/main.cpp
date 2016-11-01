@@ -52,19 +52,6 @@ int divide(int x, int y)
 //a typedef for a function that takes 2 ints as parameters and returns an int
 typedef int (*arithmeticFcn) (int, int);
 
-//takes an arithmetic operator as a parameter and returns a pointer to a function
-arithmeticFcn getArithmeticFunction(char op)
-{
-  switch (op)
-  {
-    default:
-    case '+': return add;
-    case '-': return subtract;
-    case '/': return divide;
-    case '*': return multiply;
-  }
-}
-
 struct arithmeticStruct
 {
   char op;
@@ -72,6 +59,17 @@ struct arithmeticStruct
 };
 
 static arithmeticStruct arithmeticArray[] = {{'+',add},{'-',subtract},{'*',multiply},{'/',divide}};
+
+//takes an arithmetic operator as a parameter and returns a pointer to a function
+arithmeticFcn getArithmeticFunction(char op)
+{
+  for(auto &element : arithmeticArray)
+  {
+    if(element.op == op)
+      return element.fnc;
+  }
+  return add;
+}
 
 int main()
 {
