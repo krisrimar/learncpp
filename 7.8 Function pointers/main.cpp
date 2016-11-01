@@ -52,15 +52,16 @@ int divide(int x, int y)
     return x / y;
 }
 
+//takes an arithmetic operator as a parameter and returns a pointer to a function
 arithmeticFcn getArithmeticFunction(char mathOperator)
 {
   switch (mathOperator)
   {
+    default:
     case '+': return add;
     case '-': return subtract;
     case '/': return divide;
     case '*': return multiply;
-    default: return 0;
   }
 }
 
@@ -70,7 +71,10 @@ int main()
   char mathOperator = getOperator();
   int number2       = getNumber();
 
-  cout << number1 << " " << mathOperator << " " << number2;
+  //create a variable of type int functionName(int, int) and assign it the value that the getArithmeticFunction will return (which will return a pointer to a function)
+  arithmeticFcn fnc = getArithmeticFunction(mathOperator);
+
+  cout << number1 << " " << mathOperator << " " << number2 << " = " << fnc(number1, number2);
   cout << endl;
 
   return 0;
