@@ -22,7 +22,7 @@ int sumOfNumbers(int number)
 {
   if (number < 10)
     return number;
-  return sumOfNumbers(number / 10) + (number - ((number / 10) * 10));
+  return sumOfNumbers(number / 10) + number % 10;
 }
 
 int main()
