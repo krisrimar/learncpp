@@ -18,13 +18,19 @@ int factorial(int number)
 	return number * factorial(number-1);
 }
 
-// And a main program to display the first 13 Fibonacci numbers
+int sumOfNumbers(int number)
+{
+  if (number < 10)
+    return number;
+  return sumOfNumbers(number / 10) + (number - ((number / 10) * 10));
+}
+
 int main()
 {
     //for (int count=0; count < 13; ++count)
         //std:: cout << fibonacci(count) << " " << std::endl;
 
-		std::cout << factorial(10);
+		std::cout << sumOfNumbers(93427) << std::endl;
 
     return 0;
 }
