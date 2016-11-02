@@ -8,16 +8,23 @@ int fibonacci(int number)
         return 0; // base case (termination condition)
     if (number == 1)
         return 1; // base case (termination condition)
-		++loop;
-		std::cout << "Adding " << number-1 << " to " << number-2 << "(loop #" << loop << " branch: " << number << ")" << std::endl;
     return fibonacci(number-1) + fibonacci(number-2);
+}
+
+int factorial(int number)
+{
+	if(number < 1)
+		return 1;
+	return number * factorial(number-1);
 }
 
 // And a main program to display the first 13 Fibonacci numbers
 int main()
 {
-    for (int count=0; count < 13; ++count)
-        std:: cout << fibonacci(count) << " " << std::endl;
+    //for (int count=0; count < 13; ++count)
+        //std:: cout << fibonacci(count) << " " << std::endl;
+
+		std::cout << factorial(10);
 
     return 0;
 }
