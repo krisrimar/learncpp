@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <cassert>
 
 
 class Employee
@@ -41,50 +42,38 @@ class Point3d
 
 class Stack
 {
-  int numbers[10];
-  int stackLen = 0;
+  private:
+    int m_numbers[10];
+    int m_stackLen = 0;
 
   public:
     void reset()
     {
       for (int index = 0; index < stackLen; ++index)
-      {
         numbers[index] = 0;
-      }
       stackLen = 0;
     }
 
     bool push(int number)
     {
-      if(stackLen < 10)
-        ++stackLen;
-      else
+      if(stackLen == 10)
         return false;
-      numbers[stackLen - 1] = number;
+      numbers[stackLen++] = number; //it's better to use stackLen++ here, as it first evaluets, and then is set to a new value
       return true;
     }
 
     int pop()
     {
-      if(stackLen < 1)
-      {
-        std::cout << "There's nothing to pop :(" << std::endl;
-        return 0;
-      }
-      --stackLen;
-      int returnValue = numbers[stackLen];
-      numbers[stackLen] = 0;
-      return returnValue;
+      assert(stackLen > 0 && "There is nothing to pop");
+      return stack[--stackLen];
     }
 
     void print()
     {
       std::cout << "( ";
       for(int index = 0; index < stackLen; ++index)
-      {
         std::cout << numbers[index] << " ";
-      }
-      std::cout << ")" << std::endl;
+      std::cout << ")\n";
     }
 };
 
