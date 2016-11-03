@@ -16,6 +16,13 @@ class Employee
       m_salary = 0.0;
     }
 
+    Employee(std::string name, int age, float salary)
+    {
+      m_name = name;
+      m_age = age;
+      m_salary = salary;
+    }
+
     std::string getName() { return m_name; }
     int getAge()          { return m_age; }
     float getSalary()     { return m_salary; }
@@ -27,8 +34,10 @@ int main()
 {
 
   Employee employee1;
+  Employee employee2("John", 24, 2300.0);
 
   std::cout << employee1.getName() << std::endl;
+  std::cout << employee2.getName() << std::endl;
 
   employee1.setName("Kris");
 
