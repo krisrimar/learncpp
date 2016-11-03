@@ -9,11 +9,9 @@ class Employee
     float m_salary;
 
   public:
-    Employee(std::string name = "Undefined", int age = 0, float salary = 0.0)
+    Employee(std::string name = "Undefined", int age = 0, float salary = 0.0) : m_name {name}, m_age {age}, m_salary {salary}
     {
-      m_name = name;
-      m_age = age;
-      m_salary = salary;
+
     }
 
     std::string getName() { return m_name; }
