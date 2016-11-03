@@ -4,23 +4,17 @@
 class Employee
 {
   private:
-    std::string m_name  = "Undefined";
-    int m_age           = 0;
-    float m_salary      = 0.0;
+    std::string m_name;
+    int m_age;
+    float m_salary;
 
   public:
-    //default constructor: must be included to have the others work as well (in case no parameters are passed)
-    Employee() {}
-    //constructor for string only (name)
-    Employee(std::string name) : m_name {name} {}
-    //constructor for int only (age)
-    Employee(int age) : m_age {age} {}
-    //constructor for float only (salary)
-    Employee(float salary) : m_salary {salary} {}
-    //constructor for all of the above
     Employee(std::string name, int age, float salary) : m_name {name}, m_age {age}, m_salary {salary} {}
 
-    //note: we can add a constructor for age, salary || name, salary || age, name, but this would make this class very long
+    Employee() : Employee("Undefined", 0, 0.0) {}
+    Employee(std::string name) : Employee(name, 0, 0.0) {}
+    Employee(int age) : Employee("Undefined", age, 0.0) {}
+    Employee(float salary) : Employee("Undefined", 0, salary) {}
 
     std::string getName() { return m_name; }
     int getAge()          { return m_age; }
