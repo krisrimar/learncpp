@@ -1,5 +1,7 @@
 #include <iostream>
 
+class Display;
+
 class Storage
 {
   private:
