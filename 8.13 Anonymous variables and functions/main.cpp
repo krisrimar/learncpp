@@ -18,9 +18,7 @@ Cents add(const Cents &c1, const Cents &c2)
 
 int main()
 {
-    Cents cents1(6);
-    Cents cents2(8);
-    std::cout << "I have " << add(cents1, cents2).getCents() << " cents." << std::endl; // print anonymous Cents value
+    std::cout << "I have " << add(Cents(6), Cents(8)).getCents() << " cents." << std::endl; // print anonymous Cents value
 
     return 0;
 }
