@@ -13,16 +13,14 @@ public:
 
 Cents add(const Cents &c1, const Cents &c2)
 {
-    Cents sum = Cents(c1.getCents() + c2.getCents());
-    return sum;
+    return Cents(c1.getCents() + c2.getCents()); // return anonymous Cents value
 }
 
 int main()
 {
     Cents cents1(6);
     Cents cents2(8);
-    Cents sum = add(cents1, cents2);
-    std::cout << "I have " << sum.getCents() << " cents." << std::endl;
+    std::cout << "I have " << add(cents1, cents2).getCents() << " cents." << std::endl; // print anonymous Cents value
 
     return 0;
 }
