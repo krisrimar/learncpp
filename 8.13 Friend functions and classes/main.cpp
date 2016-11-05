@@ -1,29 +1,46 @@
 #include <iostream>
 
-class Accumulator
+class Storage
 {
   private:
-    int m_value;
-  public:
-    Accummulator() { m_value = 0; }
-    void add(int value) { m_value += value; }
+    int m_nValue;
+    double m_dValue;
 
-    //make reset function a "friend" of the Accummulator class
-    //othervise, reset() would not be able to access private members
-    //of the Accummulator class
-    friend void reset(Accummulator &accumulator);
+  public:
+    Storage(int nValue, double dValue)
+    {
+      m_nValue = nValue;
+      m_dValue = dValue;
+    }
+
+    friend class Display;
 };
 
-//takes an object of class Accummulator, accesses it's member called m_value, and sets the value to 0
-void reset(Acummulator &accumulator)
+class Display
 {
-  accumulator.m_value = 0;
+  private:
+    bool m_displayIntFirst;
+
+  public:
+    Display(bool displayIntFirst) { m_displayIntFirst = displayIntFirst; }
+
+    //depending on what will be passed as an argument to this function
+    //it will get member values of Storage class and display them in a sequence
+    void displayItem(Storage &storage)
+    {
+      if(m_displayIntFirst)
+        std::cout << storage.m_nValue << " " << storage.m_dValue << '\n';
+      else //display double first
+        std::cout << storage.m_dValue << " " << storage.m_nValue << '\n';
+    }
 }
 
 int main()
 {
-  Accumulator acc;
-  acc.add(5);
-  reset(acc); //pass the object
+  Storage storage(5, 6.7);
+  Display display(false);
+
+  display.displayItem(storage);
+
   return 0;
 }
