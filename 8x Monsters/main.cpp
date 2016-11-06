@@ -1,4 +1,7 @@
 #include <iostream>
+#include <ctime> //for time()
+#include <cstdlib> //for srand()
+#include <string>
 
 class Monster
 {
