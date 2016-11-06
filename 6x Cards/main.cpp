@@ -99,6 +99,9 @@ class Card
 class Deck
 {
   private:
+
+    int m_cardIndex = 0; //current card in the deck
+
     std::array <Card, Card::MAX_RANKS * Card::MAX_SUITS> m_deck;
 
     //function for generating a random number
@@ -142,14 +145,24 @@ class Deck
       }
     }
 
+    //shuffles the deck of cards randomly
     Deck& shuffleDeck()
     {
+      m_cardIndex = 0; //reset the current card index, as the deck has been shuffled
+
       for(int index = 0; index < Card::MAX_RANKS * Card::MAX_SUITS; ++index)
       {
         swapCards(m_deck[index], m_deck[getRandomNumber(0,(Card::MAX_RANKS * Card::MAX_SUITS -1))]);
       }
 
-      return *this;
+      return *this; //done to be able to concatenate members deck.shuffleDeck().printDeck()
+    }
+
+    //returning the current card (based on the m_cardIndex)
+    const Card& dealCard()
+    {
+      ++m_cardIndex;
+      return m_deck[m_cardIndex - 1];
     }
 
 };
@@ -158,11 +171,11 @@ int main()
 {
   srand(static_cast<unsigned int>(time(0)));
 
-  const Card cardQueenHearts(Card::RANK_QUEEN, Card::SUIT_HEARTS);
-  cardQueenHearts.printCard();
-  std::cout << " has the value " << cardQueenHearts.getCardValue() << '\n';
   Deck deck;
-  deck.shuffleDeck().printDeck();
+	deck.shuffleDeck();
+	deck.printDeck();
+	std::cout << "The first card has value: " << deck.dealCard().getCardValue() << '\n';
+	std::cout << "The second card has value: " << deck.dealCard().getCardValue() << '\n';
 
   return 0;
 };
