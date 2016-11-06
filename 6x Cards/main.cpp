@@ -142,7 +142,13 @@ class Deck
       }
     }
 
-
+    void shuffleDeck(std::array<Card, Card::MAX_RANKS * Card::MAX_SUITS> &deck)
+    {
+      for(int index = 0; index < Card::MAX_RANKS * Card::MAX_SUITS; ++index)
+      {
+        swapCards(deck[index], deck[getRandomNumber(0,(Card::MAX_RANKS * Card::MAX_SUITS -1))]);
+      }
+    }
 
 };
 
