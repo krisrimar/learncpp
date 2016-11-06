@@ -89,9 +89,45 @@ class Card
       }
     }
 
+    friend class Deck;
+
   private:
     CardRank m_rank;
     CardSuit m_suit;
+};
+
+class Deck
+{
+  private:
+    std::array <Card, Card::MAX_RANKS * Card::MAX_SUITS> m_deck;
+
+  public:
+    //the default constructor creates an array of cards
+    //no need to have other constructors (with parameters)
+    Deck()
+    {
+      static int card = 0;
+      for(int suit = 0; suit < Card::MAX_SUITS; ++suit)
+      {
+        for(int rank = 0; rank < Card::MAX_RANKS; ++rank)
+        {
+          m_deck[card] = Card(static_cast<Card::CardRank>(rank), static_cast<Card::CardSuit>(suit));
+          ++(card);
+        }
+      }
+      card = 0;
+    }
+
+    //goes throught the each element of the card deck and prints it
+    void printDeck()
+    {
+      for(const auto &card : m_deck)
+      {
+        card.printCard();
+        std::cout << ' ';
+      }
+    }
+
 };
 
 int main()
@@ -175,22 +211,9 @@ void printCard(const Card &card)
   }
 }
 
-int getRandomNumber(int min, int max)
-{
-    static const double fraction = 1.0 / (static_cast<double>(RAND_MAX) + 1.0);  // static used for efficiency, so we only calculate this value once
-    // evenly distribute the random number across our range
-    return static_cast<int>(rand() * fraction * (max - min + 1) + min);
-}
 
-//goes throught the each element of the card deck and prints it
-void printDeck(const array<Card, MAX_RANKS * MAX_SUITS> &deck)
-{
-  for(const auto &card : deck)
-  {
-    printCard(card);
-    cout << ' ';
-  }
-}
+
+
 
 //swaps values of two cards in the deck array
 void swapCards(Card &card1, Card &card2)
@@ -268,15 +291,7 @@ int main()
   *card = 0;
 
   //create the cards for the deck
-  for(int suit = 0; suit < MAX_SUITS; ++suit)
-  {
-    for(int rank = 0; rank < MAX_RANKS; ++rank)
-    {
-      cardDeck[*card].rank = static_cast<CardRank>(rank);
-      cardDeck[*card].suit = static_cast<CardSuit>(suit);
-      ++(*card);
-    }
-  }
+
 
   cout << "Shuffling cards...\n\n";
 
