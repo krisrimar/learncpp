@@ -55,10 +55,10 @@ class MonsterGenerator
     //this function is static because we need to use it without a class object
     static Monster generateMonster()
     {
-      return Monster(Monster::MonsterType::SKELETON, "Bones", "*rattle*", 4);
+      return Monster(static_cast<Monster::MonsterType>(getRandomNumber(0,Monster::MonsterType::MAX_MONSTER_TYPES-1)), "Bones", "*rattle*", getRandomNumber(0,100));
     }
 
-    int getRandomNumber(int min, int max)
+    static int getRandomNumber(int min, int max)
     	{
     		static const double fraction = 1.0 / (static_cast<double>(RAND_MAX) + 1.0);  // static used for efficiency, so we only calculate this value once
     		// evenly distribute the random number across our range
@@ -68,6 +68,8 @@ class MonsterGenerator
 
 int main()
 {
+  srand(static_cast<unsigned int>(time(0)));
+
   Monster skele = MonsterGenerator::generateMonster();
   skele.print();
   return 0;
