@@ -142,23 +142,27 @@ class Deck
       }
     }
 
-    void shuffleDeck()
+    Deck& shuffleDeck()
     {
       for(int index = 0; index < Card::MAX_RANKS * Card::MAX_SUITS; ++index)
       {
         swapCards(m_deck[index], m_deck[getRandomNumber(0,(Card::MAX_RANKS * Card::MAX_SUITS -1))]);
       }
+
+      return *this;
     }
 
 };
 
 int main()
 {
+  srand(static_cast<unsigned int>(time(0)));
+
   const Card cardQueenHearts(Card::RANK_QUEEN, Card::SUIT_HEARTS);
   cardQueenHearts.printCard();
   std::cout << " has the value " << cardQueenHearts.getCardValue() << '\n';
-  const Deck deck;
-  deck.printDeck();
+  Deck deck;
+  deck.shuffleDeck().printDeck();
 
   return 0;
 };
