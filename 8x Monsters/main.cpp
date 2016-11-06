@@ -58,7 +58,12 @@ class MonsterGenerator
     //this function is static because we need to use it without a class object
     static Monster generateMonster()
     {
-      return Monster(static_cast<Monster::MonsterType>(getRandomNumber(0,Monster::MonsterType::MAX_MONSTER_TYPES-1)), "Bones", "*rattle*", getRandomNumber(0,100));
+      //array for random names generation
+      static std::string s_names[6] {"Blackfish", "John Snow", "Jamie Lannister", "Margaret Tyrell", "Tyrion Lannister", "Sansa Stark"};
+      //array for random sounds generation
+      static std::string s_sounds[6] {"*roar*", "*scream*", "*rattle*", "*growl*", "*grunt*", "*hiss*"};
+      //Monster(type, name, sound, hit points)
+      return Monster(static_cast<Monster::MonsterType>(getRandomNumber(0,Monster::MonsterType::MAX_MONSTER_TYPES-1)), s_names[getRandomNumber(0,5)], s_sounds[getRandomNumber(0,5)], getRandomNumber(0,100));
     }
 
     static int getRandomNumber(int min, int max)
