@@ -13,6 +13,15 @@ enum MonsterType
   MAX_MONSTER_TYPES
 };
 
+class Monster
+{
+  private:
+    MonsterType m_type;
+    std::string m_name;
+    std::string m_roar;
+    int m_hitPoints;
+};
+
 int main()
 {
   return 0;
