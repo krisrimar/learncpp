@@ -18,9 +18,9 @@ class Monster
 
     Monster(MonsterType type, std::string name, std::string roar, int hitPoints) : m_type{type}, m_name{name}, m_roar{roar}, m_hitPoints{hitPoints} {}
 
-    std::string getTypeString(MonsterType type)
+    std::string getTypeString()
     {
-      switch(type)
+      switch(m_type)
       {
         case DRAGON:  return "dragon";
         case GOBLIN:  return "goblin";
@@ -36,7 +36,7 @@ class Monster
 
     void print()
     {
-      std::cout << m_name << " the " << getTypeString(m_type) << " has " << m_hitPoints << " hit points and says " << m_roar << '\n';
+      std::cout << m_name << " the " << getTypeString() << " has " << m_hitPoints << " hit points and says " << m_roar << '\n';
     }
 
   private:
