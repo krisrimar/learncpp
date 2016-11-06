@@ -5,6 +5,9 @@
 #include <array>
 #include <ctime>
 
+//set to true to enter debugging mode and see conditions in the logs
+bool debugMode = false;
+
 //TEXT STRINGS
 
 const std::string dealer_gets_card   = "The dealer gets card ";
@@ -69,10 +72,10 @@ class Card
       }
       switch (m_suit)
       {
-        case SUIT_SPADES:   std::cout << 'S';  break;
-        case SUIT_HEARTS:   std::cout << 'H';  break;
-        case SUIT_CLUBS:    std::cout << 'C';  break;
-        case SUIT_DIAMONDS: std::cout << 'D';  break;
+        case SUIT_SPADES:   std::cout << "♠";  break;
+        case SUIT_HEARTS:   std::cout << "♥";  break;
+        case SUIT_CLUBS:    std::cout << "♣";  break;
+        case SUIT_DIAMONDS: std::cout << "♦";  break;
 
         default:            std::cout << 'x';
       }
@@ -177,26 +180,62 @@ class Deck
 
 };
 
+//checks the game condition (if player won or if dealer won or it its a tie)
+//game over - returns false
+//game continues - returns true
 bool checkGameCondition(int &playerScore, int &dealerScore)
 {
+
+  if(debugMode) std::cout << "Comparing p: " << playerScore << " and d: " << dealerScore << '\n';
+
   if(playerScore <= 21 && dealerScore <= 21 && playerScore == dealerScore)
   {
-    std::cout << "\nIt's a draw! :D";
+    std::cout << "\nIt's a tie! :D\n";
     return false;
   }
   else if(playerScore > 21 || dealerScore == 21)
   {
-    std::cout << "\nYou lost :(";
+    std::cout << "\nYou lost :(\n";
     return false;
   }
   else if(dealerScore > 21 || playerScore == 21)
   {
-    std::cout << "\nYou won! :D";
+    std::cout << "\nYou won! :D\n";
     return false;
   }
   else
   {
+
+    if(debugMode) std::cout << "No condition matched\n";
+
     return true;
+  }
+}
+
+//taking user input to determine whether to take a card or skip the turn
+bool hitOrStand()
+{
+  char *option = new char;
+  while(true)
+  {
+    std::cout << "Do you wish to hit or stand? (h/s): ";
+    std::cin >> *option;
+
+    if(std::cin.fail() || (*option != 'h' && *option != 's'))
+    {
+      std::cin.clear();
+      std::cin.ignore(32767,'\n');
+      std::cout << "\nWrong input!\n\n";
+    }
+    else
+    {
+      std::cin.ignore(32767,'\n');
+      std::cout << '\n';
+      if(*option == 'h')
+        return true; //in case of a hit
+      else
+        return false; //in case of a stand
+    }
   }
 }
 
@@ -206,7 +245,7 @@ int main()
 
   Deck deck;
 	deck.shuffleDeck();
-	deck.printDeck();
+	//deck.printDeck();
 
   std::cout << '\n' << '\n';
 
@@ -219,9 +258,13 @@ int main()
   Card currentCard = deck.dealCard();
   currentCard.printCard();
   *playerScore = currentCard.getCardValue();
-  currentCard = deck.dealCard();
   std::cout << ' ';
+  currentCard = deck.dealCard();
   currentCard.printCard();
+
+  if(debugMode) std::cout << "\nAdding p: " << *playerScore << " + " << currentCard.getCardValue() << '\n';
+
+  *playerScore += currentCard.getCardValue();
   std::cout << " (score: " << *playerScore << ")\n";
 
   //dealer makes move
@@ -231,10 +274,57 @@ int main()
   *dealerScore = currentCard.getCardValue();
   std::cout << " (score: " << *dealerScore << ")\n";
 
-  if(checkGameCondition(*playerScore, *dealerScore))
+  if(!checkGameCondition(*playerScore, *dealerScore))
     return 0;
 
+    while(true)
+    {
+      //players move
+      if(hitOrStand())
+      {
+        std::cout << player_gets_card;
+        Card currentCard = deck.dealCard();
+        currentCard.printCard();
 
+        if(debugMode) std::cout << "\nAdding p: " << *playerScore << " + " << currentCard.getCardValue() << '\n';
+
+        *playerScore += currentCard.getCardValue();
+        std::cout << " (score: " << *playerScore << ")\n";
+      }
+      else
+      {
+        std::cout << player_skips_turn << " (score: " << *playerScore << ")\n";
+      }
+
+      if(!checkGameCondition(*playerScore, *dealerScore))
+        return 0;
+
+      //dealers move
+      if(*dealerScore < 17)
+      {
+        std::cout << dealer_gets_card;
+        currentCard = deck.dealCard();
+        currentCard.printCard();
+
+        if(debugMode) std::cout << "\nAdding d: " << *dealerScore << " + " << currentCard.getCardValue() << '\n';
+
+        *dealerScore += currentCard.getCardValue();
+        std::cout << " (score: " << *dealerScore << ")\n";
+      }
+      else
+      {
+        std::cout << dealer_skips_turn;
+        std::cout << " (score: " << *dealerScore << ")\n";
+      }
+
+      if(*dealerScore > 21)
+      {
+        std::cout << "You won! :D";
+        break;
+      }
+
+      std::cout << '\n';
+    }
 
   return 0;
 };
