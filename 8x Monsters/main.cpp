@@ -1,0 +1,19 @@
+#include <iostream>
+
+enum MonsterType
+{
+  MONSTER_DRAGON,
+  MONSTER_GOBLIN,
+  MONSTER_OGRE,
+  MONSTER_ORC,
+  MONSTER_SKELETON,
+  MONSTER_TROLL,
+  MONSTER_VAMPIRE,
+  MONSTER_ZOMBIE,
+  MAX_MONSTER_TYPES
+};
+
+int main()
+{
+  return 0;
+}
