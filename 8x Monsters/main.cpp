@@ -2,28 +2,32 @@
 
 class Monster
 {
+  public:
+    enum MonsterType
+    {
+      DRAGON,
+      GOBLIN,
+      OGRE,
+      ORC,
+      SKELETON,
+      TROLL,
+      VAMPIRE,
+      ZOMBIE,
+      MAX_MONSTER_TYPES
+    };
+
+    Monster(MonsterType type, std::string name, std::string roar, int hitPoints) : m_type{type}, m_name{name}, m_roar{roar}, m_hitPoints{hitPoints} {}
+
   private:
     MonsterType m_type;
     std::string m_name;
     std::string m_roar;
     int m_hitPoints;
 
-  public:
-    enum MonsterType
-    {
-      MONSTER_DRAGON,
-      MONSTER_GOBLIN,
-      MONSTER_OGRE,
-      MONSTER_ORC,
-      MONSTER_SKELETON,
-      MONSTER_TROLL,
-      MONSTER_VAMPIRE,
-      MONSTER_ZOMBIE,
-      MAX_MONSTER_TYPES
-    };
 };
 
 int main()
 {
+  Monster skele(Monster::MonsterType::SKELETON, "Bones", "*rattle*", 4);
   return 0;
 }
