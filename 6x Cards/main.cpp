@@ -101,6 +101,14 @@ class Deck
   private:
     std::array <Card, Card::MAX_RANKS * Card::MAX_SUITS> m_deck;
 
+    //function for generating a random number
+    int getRandomNumber(int min, int max)
+    {
+        static const double fraction = 1.0 / (static_cast<double>(RAND_MAX) + 1.0);  // static used for efficiency, so we only calculate this value once
+        // evenly distribute the random number across our range
+        return static_cast<int>(rand() * fraction * (max - min + 1) + min);
+    }
+
   public:
     //the default constructor creates an array of cards
     //no need to have other constructors (with parameters)
@@ -119,7 +127,7 @@ class Deck
     }
 
     //goes throught the each element of the card deck and prints it
-    void printDeck()
+    void printDeck() const
     {
       for(const auto &card : m_deck)
       {
@@ -135,6 +143,8 @@ int main()
   const Card cardQueenHearts(Card::RANK_QUEEN, Card::SUIT_HEARTS);
   cardQueenHearts.printCard();
   std::cout << " has the value " << cardQueenHearts.getCardValue() << '\n';
+  const Deck deck;
+  deck.printDeck();
 
   return 0;
 };
@@ -215,20 +225,7 @@ void printCard(const Card &card)
 
 
 
-//swaps values of two cards in the deck array
-void swapCards(Card &card1, Card &card2)
-{
-  swap(card1, card2);
-}
 
-//swaps the card at current index with a card at random index
-void shuffleDeck(array<Card, MAX_RANKS * MAX_SUITS> &deck)
-{
-  for(int index = 0; index < MAX_RANKS * MAX_SUITS; ++index)
-  {
-    swapCards(deck[index], deck[getRandomNumber(0,(MAX_RANKS * MAX_SUITS -1))]);
-  }
-}
 
 //returns the point value of a card depending on its rank
 int getCardValue(const Card &card)
