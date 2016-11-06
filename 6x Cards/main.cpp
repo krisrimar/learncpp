@@ -126,7 +126,7 @@ class Deck
         for(int rank = 0; rank < Card::MAX_RANKS; ++rank)
         {
           m_deck[card] = Card(static_cast<Card::CardRank>(rank), static_cast<Card::CardSuit>(suit));
-          ++(card);
+          ++card;
         }
       }
       card = 0;
@@ -142,11 +142,11 @@ class Deck
       }
     }
 
-    void shuffleDeck(std::array<Card, Card::MAX_RANKS * Card::MAX_SUITS> &deck)
+    void shuffleDeck()
     {
       for(int index = 0; index < Card::MAX_RANKS * Card::MAX_SUITS; ++index)
       {
-        swapCards(deck[index], deck[getRandomNumber(0,(Card::MAX_RANKS * Card::MAX_SUITS -1))]);
+        swapCards(m_deck[index], m_deck[getRandomNumber(0,(Card::MAX_RANKS * Card::MAX_SUITS -1))]);
       }
     }
 
