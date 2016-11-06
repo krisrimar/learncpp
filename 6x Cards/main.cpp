@@ -102,11 +102,17 @@ class Deck
     std::array <Card, Card::MAX_RANKS * Card::MAX_SUITS> m_deck;
 
     //function for generating a random number
-    int getRandomNumber(int min, int max)
+    static int getRandomNumber(int min, int max)
     {
         static const double fraction = 1.0 / (static_cast<double>(RAND_MAX) + 1.0);  // static used for efficiency, so we only calculate this value once
         // evenly distribute the random number across our range
         return static_cast<int>(rand() * fraction * (max - min + 1) + min);
+    }
+
+    //swaps values of two cards in the deck array
+    static void swapCards(Card &card1, Card &card2)
+    {
+      std::swap(card1, card2);
     }
 
   public:
@@ -135,6 +141,8 @@ class Deck
         std::cout << ' ';
       }
     }
+
+
 
 };
 
