@@ -47,9 +47,20 @@ class Monster
 
 };
 
+class MonsterGenerator
+{
+  private:
+
+  public:
+    static Monster generateMonster()
+    {
+      return Monster(Monster::MonsterType::SKELETON, "Bones", "*rattle*", 4);
+    }
+};
+
 int main()
 {
-  Monster skele(Monster::MonsterType::SKELETON, "Bones", "*rattle*", 4);
+  Monster skele = MonsterGenerator::generateMonster();
   skele.print();
   return 0;
 }
