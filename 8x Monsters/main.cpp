@@ -59,6 +59,8 @@ class MonsterGenerator
     static Monster generateMonster()
     {
       //array for random names generation
+      //is static to be initialized only once, otherwise they would be initiated each time
+      //the generateMonster() function is called
       static std::string s_names[6] {"Blackfish", "John Snow", "Jamie Lannister", "Margaret Tyrell", "Tyrion Lannister", "Sansa Stark"};
       //array for random sounds generation
       static std::string s_sounds[6] {"*roar*", "*scream*", "*rattle*", "*growl*", "*grunt*", "*hiss*"};
