@@ -5,7 +5,105 @@
 #include <array>
 #include <ctime>
 
-using namespace std;
+class Card
+{
+  public:
+    enum CardRank
+    {
+      RANK_2,
+      RANK_3,
+      RANK_4,
+      RANK_5,
+      RANK_6,
+      RANK_7,
+      RANK_8,
+      RANK_9,
+      RANK_10,
+      RANK_JACK,
+      RANK_QUEEN,
+      RANK_KING,
+      RANK_ACE,
+      MAX_RANKS
+    };
+
+    enum CardSuit
+    {
+      SUIT_CLUBS,
+      SUIT_DIAMONDS,
+      SUIT_HEARTS,
+      SUIT_SPADES,
+      MAX_SUITS
+    };
+
+    Card(CardRank rank = RANK_2, CardSuit suit = SUIT_CLUBS) : m_rank{rank}, m_suit{suit} {}
+
+    void printCard() const
+    {
+      switch (m_rank)
+      {
+        case RANK_2:      std::cout << '2';  break;
+        case RANK_3:      std::cout << '3';  break;
+        case RANK_4:      std::cout << '4';  break;
+        case RANK_5:      std::cout << '5';  break;
+        case RANK_6:      std::cout << '6';  break;
+        case RANK_7:      std::cout << '7';  break;
+        case RANK_8:      std::cout << '8';  break;
+        case RANK_9:      std::cout << '9';  break;
+        case RANK_10:     std::cout << 'T';  break;
+        case RANK_JACK:   std::cout << 'J';  break;
+        case RANK_QUEEN:  std::cout << 'Q';  break;
+        case RANK_KING:   std::cout << 'K';  break;
+        case RANK_ACE:    std::cout << 'A';  break;
+
+        default:          std::cout << 'X';
+      }
+      switch (m_suit)
+      {
+        case SUIT_SPADES:   std::cout << 'S';  break;
+        case SUIT_HEARTS:   std::cout << 'H';  break;
+        case SUIT_CLUBS:    std::cout << 'C';  break;
+        case SUIT_DIAMONDS: std::cout << 'D';  break;
+
+        default:            std::cout << 'x';
+      }
+    }
+
+    int getCardValue() const
+    {
+      switch (m_rank) {
+        case RANK_2:      return 2;
+        case RANK_3:      return 3;
+        case RANK_4:      return 4;
+        case RANK_5:      return 5;
+        case RANK_6:      return 6;
+        case RANK_7:      return 7;
+        case RANK_8:      return 8;
+        case RANK_9:      return 9;
+        case RANK_10:
+        case RANK_JACK:
+        case RANK_QUEEN:
+        case RANK_KING:   return 10;
+        case RANK_ACE:    return 11;
+
+        default:          return 0;
+      }
+    }
+
+  private:
+    CardRank m_rank;
+    CardSuit m_suit;
+};
+
+int main()
+{
+  const Card cardQueenHearts(Card::RANK_QUEEN, Card::SUIT_HEARTS);
+  cardQueenHearts.printCard();
+  std::cout << " has the value " << cardQueenHearts.getCardValue() << '\n';
+
+  return 0;
+};
+
+/*using namespace std;
 
 const string dealer_gets_card   = "The dealer gets card ";
 const string player_gets_card   = "You get card ";
@@ -298,4 +396,7 @@ int main()
 
     cout << '\n';
   }
+
 }
+
+*/
