@@ -52,10 +52,18 @@ class MonsterGenerator
   private:
 
   public:
+    //this function is static because we need to use it without a class object
     static Monster generateMonster()
     {
       return Monster(Monster::MonsterType::SKELETON, "Bones", "*rattle*", 4);
     }
+
+    int getRandomNumber(int min, int max)
+    	{
+    		static const double fraction = 1.0 / (static_cast<double>(RAND_MAX) + 1.0);  // static used for efficiency, so we only calculate this value once
+    		// evenly distribute the random number across our range
+    		return static_cast<int>(rand() * fraction * (max - min + 1) + min);
+    	}
 };
 
 int main()
