@@ -5,6 +5,16 @@
 #include <array>
 #include <ctime>
 
+//TEXT STRINGS
+
+const std::string dealer_gets_card   = "The dealer gets card ";
+const std::string player_gets_card   = "You get card ";
+const std::string player_gets_cards  = "You get cards ";
+const std::string dealer_skips_turn  = "The dealer skips his turn";
+const std::string player_skips_turn  = "You skip your turn";
+
+//END TEXT STRINGS
+
 class Card
 {
   public:
@@ -167,6 +177,29 @@ class Deck
 
 };
 
+bool checkGameCondition(int &playerScore, int &dealerScore)
+{
+  if(playerScore <= 21 && dealerScore <= 21 && playerScore == dealerScore)
+  {
+    std::cout << "\nIt's a draw! :D";
+    return false;
+  }
+  else if(playerScore > 21 || dealerScore == 21)
+  {
+    std::cout << "\nYou lost :(";
+    return false;
+  }
+  else if(dealerScore > 21 || playerScore == 21)
+  {
+    std::cout << "\nYou won! :D";
+    return false;
+  }
+  else
+  {
+    return true;
+  }
+}
+
 int main()
 {
   srand(static_cast<unsigned int>(time(0)));
@@ -174,8 +207,34 @@ int main()
   Deck deck;
 	deck.shuffleDeck();
 	deck.printDeck();
-	std::cout << "The first card has value: " << deck.dealCard().getCardValue() << '\n';
-	std::cout << "The second card has value: " << deck.dealCard().getCardValue() << '\n';
+
+  std::cout << '\n' << '\n';
+
+  //initialize player and dealer scores
+  int *playerScore = new int;
+  int *dealerScore = new int;
+
+  //player makes first move
+  std::cout << player_gets_cards;
+  Card currentCard = deck.dealCard();
+  currentCard.printCard();
+  *playerScore = currentCard.getCardValue();
+  currentCard = deck.dealCard();
+  std::cout << ' ';
+  currentCard.printCard();
+  std::cout << " (score: " << *playerScore << ")\n";
+
+  //dealer makes move
+  std::cout << dealer_gets_card;
+  currentCard = deck.dealCard();
+  currentCard.printCard();
+  *dealerScore = currentCard.getCardValue();
+  std::cout << " (score: " << *dealerScore << ")\n";
+
+  if(checkGameCondition(*playerScore, *dealerScore))
+    return 0;
+
+
 
   return 0;
 };
