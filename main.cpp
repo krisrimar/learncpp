@@ -3,15 +3,30 @@
 class Fraction
 {
   private:
-    int m_numberator = 0;
+    int m_numerator = 0;
     int m_denominator = 1;
 
   public:
-    Fraction(int numerator, int denominator) : m_numberator{numerator}, m_denominator{denominator} {}
+    Fraction(int numerator, int denominator) : m_numerator{numerator}, m_denominator{denominator}
+    {
+      reduce();
+    }
 
     void print()
     {
-      std::cout << m_numberator << "/" << m_denominator << '\n';
+      std::cout << m_numerator << "/" << m_denominator << '\n';
+    }
+
+    static int gcd(int a, int b)
+    {
+      return b == 0 ? a : gcd(b, a % b);
+    }
+
+    void reduce()
+    {
+    	int gcd = Fraction::gcd(m_numerator, m_denominator);
+    	m_numerator /= gcd;
+    	m_denominator /= gcd;
     }
 
     friend Fraction operator*(const Fraction &f1, const Fraction &f2);
@@ -21,21 +36,21 @@ class Fraction
 
 Fraction operator*(const Fraction &f1, const Fraction &f2)
 {
-  Fraction f3((f1.m_numberator * f2.m_numberator), (f1.m_denominator * f2.m_denominator));
+  Fraction f3((f1.m_numerator * f2.m_numerator), (f1.m_denominator * f2.m_denominator));
 
   return f3;
 }
 
 Fraction operator*(const Fraction &f1, const int &f2)
 {
-  Fraction f3((f1.m_numberator * f2), (f1.m_denominator));
+  Fraction f3((f1.m_numerator * f2), (f1.m_denominator));
 
   return f3;
 }
 
 Fraction operator*(const int &f1, const Fraction &f2)
 {
-  Fraction f3((f2.m_numberator * f1), (f2.m_denominator));
+  Fraction f3((f2.m_numerator * f1), (f2.m_denominator));
 
   return f3;
 }
