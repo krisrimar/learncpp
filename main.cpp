@@ -26,6 +26,13 @@ Fraction operator*(const Fraction &f1, const Fraction &f2)
   return f3;
 }
 
+Fraction operator*(const Fraction &f1, const int &f2)
+{
+  Fraction f3((f1.m_numberator * f2), (f1.m_denominator));
+
+  return f3;
+}
+
 int main()
 {
   Fraction f1(2, 5);
@@ -37,8 +44,8 @@ int main()
     Fraction f3 = f1 * f2;
     f3.print();
 
-    // Fraction f4 = f1 * 2;
-    // f4.print();
+    Fraction f4 = f1 * 2;
+    f4.print();
     //
     // Fraction f5 = 2 * f2;
     // f5.print();
