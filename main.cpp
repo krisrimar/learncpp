@@ -4,18 +4,18 @@
 class Fraction
 {
   private:
-    int m_numerator = 0;
-    int m_denominator = 1;
+    int mNumerator = 0;
+    int mDenominator = 1;
 
   public:
-    Fraction(int numerator, int denominator) : m_numerator{numerator}, m_denominator{denominator}
+    Fraction(int numerator, int denominator) : mNumerator{numerator}, mDenominator{denominator}
     {
       reduce();
     }
 
     void print()
     {
-      std::cout << m_numerator << "/" << m_denominator << '\n';
+      std::cout << mNumerator << "/" << mDenominator << '\n';
     }
 
     static int gcd(int a, int b)
@@ -25,35 +25,44 @@ class Fraction
 
     void reduce()
     {
-    	int gcd = Fraction::gcd(m_numerator, m_denominator);
-    	m_numerator /= gcd;
-    	m_denominator /= gcd;
+    	int gcd = Fraction::gcd(mNumerator, mDenominator);
+    	mNumerator /= gcd;
+    	mDenominator /= gcd;
     }
 
     friend Fraction operator*(const Fraction &f1, const Fraction &f2);
     friend Fraction operator*(const Fraction &f1, const int &f2);
     friend Fraction operator*(const int &f1, const Fraction &f2);
+    //output friend fuction
+    friend std::ostream& operator<<(std::ostream &out, const Fraction &f);
 };
 
 Fraction operator*(const Fraction &f1, const Fraction &f2)
 {
-  Fraction f3((f1.m_numerator * f2.m_numerator), (f1.m_denominator * f2.m_denominator));
+  Fraction f3((f1.mNumerator * f2.mNumerator), (f1.mDenominator * f2.mDenominator));
 
   return f3;
 }
 
 Fraction operator*(const Fraction &f1, const int &f2)
 {
-  Fraction f3((f1.m_numerator * f2), (f1.m_denominator));
+  Fraction f3((f1.mNumerator * f2), (f1.mDenominator));
 
   return f3;
 }
 
 Fraction operator*(const int &f1, const Fraction &f2)
 {
-  Fraction f3((f2.m_numerator * f1), (f2.m_denominator));
+  Fraction f3((f2.mNumerator * f1), (f2.mDenominator));
 
   return f3;
+}
+
+std::ostream& operator<< (std::ostream &out, const Fraction &f)
+{
+  out << f.mNumerator << "/" << f.mDenominator;
+
+  return out;
 }
 
 int main()
@@ -76,10 +85,12 @@ int main()
     Fraction f6 = Fraction(1, 2) * Fraction(2, 3) * Fraction(3, 4);
     f6.print();
 
+    std::cout << f6;
+
     Cents cents1(6);
     Cents cents2(8);
+
     Cents centsSum = cents1 + cents2; // without the prototype in Cents.h, this would fail to compile
-    std::cout << "I have " << centsSum.getCents() << " cents." << std::endl;
 
     return 0;
 }
