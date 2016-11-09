@@ -1,4 +1,8 @@
 #include <iostream>
+#include <string>
+#include <vector>
+#include "studentGrade.h"
+#include "gradeMap.h"
 #include "Cents.h"
 
 class Fraction
@@ -31,6 +35,7 @@ class Fraction
     }
 
     //member functions
+    //note that the left operator is removed, because it now becomes the *this object
     Fraction operator*(const Fraction &f2);
     Fraction operator*(const int &f2);
 

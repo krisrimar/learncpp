@@ -1,3 +1,6 @@
+#ifndef CENTS_H
+#define CENTS_H
+
 class Cents
 {
 private:
@@ -11,3 +14,5 @@ public:
 
 //explicitly providing a prototype so other files know the overload exists
 Cents operator+(const Cents &c1, const Cents &c2);
+
+#endif
