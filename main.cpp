@@ -30,27 +30,25 @@ class Fraction
     	mDenominator /= gcd;
     }
 
-    friend Fraction operator*(const Fraction &f1, const Fraction &f2);
-    friend Fraction operator*(const Fraction &f1, const int &f2);
+    //member functions
+    Fraction operator*(const Fraction &f2);
+    Fraction operator*(const int &f2);
+
+    //friend functions
     friend Fraction operator*(const int &f1, const Fraction &f2);
-    friend std::ostream& operator<<(std::ostream &out, const Fraction &f);
     friend std::ostream& operator<<(std::ostream& out, const Fraction &f);
     friend std::istream& operator>>(std::istream& in, Fraction &f);
 
 };
 
-Fraction operator*(const Fraction &f1, const Fraction &f2)
+Fraction Fraction::operator*(const Fraction &f2)
 {
-  Fraction f3((f1.mNumerator * f2.mNumerator), (f1.mDenominator * f2.mDenominator));
-
-  return f3;
+  return Fraction((mNumerator * f2.mNumerator), (mDenominator * f2.mDenominator));
 }
 
-Fraction operator*(const Fraction &f1, const int &f2)
+Fraction Fraction::operator*(const int &f2)
 {
-  Fraction f3((f1.mNumerator * f2), (f1.mDenominator));
-
-  return f3;
+  return Fraction(mNumerator * f2, mDenominator);
 }
 
 Fraction operator*(const int &f1, const Fraction &f2)
