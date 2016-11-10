@@ -11,7 +11,7 @@ class GradeMap
   public:
     GradeMap() {}
 
-    const char& operator[] (const std::string studentName) const;
+    char& operator[] (const std::string studentName);
     //void operator= (char grade)
 };
 
