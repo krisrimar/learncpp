@@ -4,6 +4,7 @@
 #include "studentGrade.h"
 #include "gradeMap.h"
 #include "Cents.h"
+#include "matrix.h"
 
 class Fraction
 {
@@ -114,6 +115,10 @@ int main()
 	grades["Frank"] = 'B';
 	std::cout << "Joe has a grade of " << grades["Joe"] << '\n';
 	std::cout << "Frank has a grade of " << grades["Frank"] << '\n';
+
+  Matrix matrix;
+  matrix(1, 2) = 4.5;
+  std::cout << matrix(1, 2);
 
   return 0;
 }
