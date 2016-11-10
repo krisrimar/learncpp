@@ -118,6 +118,7 @@ int main()
 
   Matrix matrix;
   matrix(1, 2) = 4.5;
+  matrix();
   std::cout << matrix(1, 2);
 
   return 0;

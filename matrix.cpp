@@ -16,3 +16,11 @@ const double& Matrix::operator() (int row, int col) const
 
   return data[row][col];
 }
+
+void Matrix::operator()()
+{
+  //reset all of the cells to 0
+  for(int row = 0; row < 4; ++row)
+    for(int col = 0; col < 4; ++col)
+      data[row][col] = 0.0;
+}
