@@ -1,5 +1,7 @@
 #include <iostream>
 
+const bool DEBUGGING = true;
+
 class IntArray
 {
   private:
@@ -14,6 +16,8 @@ class IntArray
 
     IntArray(const IntArray &array) : mArrayLength{array.mArrayLength}
     {
+      if(DEBUGGING) std::cout << "Copy constructor for object of class IntArray initialized" << '\n';
+
       //allocate a new array
       mArray = new int[mArrayLength];
 
@@ -24,14 +28,28 @@ class IntArray
 
     ~IntArray()
     {
+      if(DEBUGGING) std::cout << "Destructor for object of class IntArray initialized" << '\n';
       delete[] mArray;
     }
+
+    //for printing the array elements
+    friend std::ostream& operator<< (std::ostream &out, const IntArray &array)
+    {
+      for(int count = 0; count < array.mArrayLength; ++count)
+      {
+        out << array.mArray[count] << ' ';
+      }
+      return out;
+    }
 };
+
 
 int main()
 {
   IntArray a(10);
   IntArray b = a;
+
+  std::cout << a;
 
   return 0;
 }
