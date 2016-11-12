@@ -3,7 +3,7 @@
 
 class Person
 {
-  public:
+  private:
     std::string mName;
     int mAge;
 
@@ -21,17 +21,15 @@ class BaseballPlayer : public Person
     int mHomeRuns;
 
   public:
-    BaseballPlayer(double battingAverage = 0.0, int homeRuns = 0) : mBattingAverage(battingAverage), mHomeRuns(homeRuns) {}
+    BaseballPlayer(double battingAverage = 0.0, int homeRuns = 0, std::string name = "", int age = 0) : Person(name, age), mBattingAverage(battingAverage), mHomeRuns(homeRuns) {}
 
 };
 
 int main()
 {
-  BaseballPlayer joe;
+  BaseballPlayer joe(3.4, 4, "Joe", 43);
 
-  joe.mName = "Joe";
-
-  std::cout << "The baseball player's name is " << joe.getName() << '\n';
+  std::cout << "The baseball player's name is " << joe.getName() << " his age is " << joe.getAge() << '\n';
 
   return 0;
 }
