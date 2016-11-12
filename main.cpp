@@ -1,7 +1,16 @@
 #include <iostream>
 #include <string>
+#include <cstdlib>
+#include <ctime>
 
-const bool DEBUGGING = true;
+const bool DEBUGGING = false;
+
+int getRandomNumber(int min, int max)
+{
+	static const double fraction = 1.0 / (static_cast<double>(RAND_MAX) + 1.0);  // static used for efficiency, so we only calculate this value once
+	// evenly distribute the random number across our range
+	return static_cast<int>(rand() * fraction * (max - min + 1) + min);
+}
 
 class Creature
 {
@@ -64,14 +73,6 @@ class Player : public Creature
 class Monster : public Creature
 {
   private:
-    struct MonsterData
-    {
-      std::string mName;
-      char mSymbol;
-      int mHealthPoints;
-      int mDamagePoints;
-      int mGold;
-    };
 
   public:
     enum Type
@@ -82,6 +83,15 @@ class Monster : public Creature
       MAX_TYPES
     };
 
+    struct MonsterData
+    {
+      std::string mName;
+      char mSymbol;
+      int mHealthPoints;
+      int mDamagePoints;
+      int mGold;
+    };
+
     static MonsterData monsterData[MAX_TYPES];
 
     //COSNTRUCTOR
@@ -89,6 +99,13 @@ class Monster : public Creature
       : Creature(monsterData[type].mName, monsterData[type].mSymbol, monsterData[type].mHealthPoints, monsterData[type].mDamagePoints, monsterData[type].mGold)
     {
     }
+
+    //GET
+    static Monster getRandomMonster()
+    {
+      return Monster(static_cast<Type>(getRandomNumber(0,MAX_TYPES-1)));
+    }
+    //SET
 };
 
 Monster::MonsterData Monster::monsterData[Monster::MAX_TYPES]
@@ -100,21 +117,13 @@ Monster::MonsterData Monster::monsterData[Monster::MAX_TYPES]
 
 int main()
 {
-  std::cout << "Enter your name: ";
-  std::string playerName;
-  std::cin >> playerName;
-  Player player(playerName);
+  srand(static_cast<unsigned int>(time(0)));
 
-  std::cout << "Welcome, " << player.getName() << ".\nYou have " << player.getHealthPoints() << "HP and are carrying " << player.getGold() << " gold.\n";
-
-  Creature creature("Orc", 'o', 200, 10, 30);
-  creature.addGold(10);
-  creature.reduceHealth(123);
-
-  std::cout << "The creatures name is " << creature.getName() << " its symbol is " << creature.getSymbol() << " it has " << creature.getHealthPoints() << "HP, the damage it makes is " << creature.getDamagePoints() << "DPH and the amount of gold it carries is " << creature.getGold() << "G\n";
-
-  Monster m(Monster::ORC);
-	std::cout << "A " << m.getName() << " (" << m.getSymbol() << ") was created.\n";
+  for (int i = 0; i < 10; ++i)
+	{
+		Monster m = Monster::getRandomMonster();
+		std::cout << "A " << m.getName() << " (" << m.getSymbol() << ") was created.\n";
+	}
 
   return 0;
 }
