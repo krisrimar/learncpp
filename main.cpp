@@ -34,7 +34,7 @@ class FixedPoint2
           out << '0';
 
         // Because some compilers typedef std::int8_t as a char, we need to cast it to an int to ensure it prints as an integer
-  		  out << static_cast<int>(fp.m_decimal > 0 ? fp.m_decimal : -fp.m_decimal);
+  		  out << static_cast<int>(fixedPoint.mDecimal > 0 ? fixedPoint.mDecimal : -fixedPoint.mDecimal);
 
   		  return out;
     }
