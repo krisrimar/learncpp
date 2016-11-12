@@ -61,7 +61,7 @@ class IntArray
 
       //if this array has been created already and carries some values - delete everything
       delete[] mArray;
-      mArray = nullptr;
+      mArray = nullptr; //not really needed here, because we will assign a value in a second to this memory cell, but it's good practice to do so
 
       mArrayLength = array.mArrayLength;
 
