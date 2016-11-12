@@ -61,6 +61,20 @@ class Player : public Creature
 
 };
 
+class Monster : public Creature
+{
+  private:
+
+  public:
+    enum Type
+    {
+      DRAGON,
+      ORC,
+      SLIME,
+      MAX_TYPES
+    };
+};
+
 int main()
 {
   std::cout << "Enter your name: ";
