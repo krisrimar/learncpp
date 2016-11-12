@@ -1,9 +1,11 @@
 #include <iostream>
 #include <string>
 
+const bool DEBUGGING = true;
+
 class Creature
 {
-  private:
+  protected:
     std::string mName;
     char mSymbol;
     int mHealthPoints;
@@ -15,6 +17,7 @@ class Creature
     Creature(std::string name = "Unknown", char symbol = 'u', int healthPoints = 0, int damagePoints = 0, int gold = 0)
       : mName(name), mSymbol(symbol), mHealthPoints(healthPoints), mDamagePoints(damagePoints), mGold(gold)
     {
+      if(DEBUGGING) std::cout << "Init Creature constructor\n";
     }
 
     //GET
@@ -33,8 +36,40 @@ class Creature
 
 };
 
+class Player : public Creature
+{
+  private:
+    int mLevel = 1;
+
+  public:
+    Player(std::string name) : Creature(name, '@', 10, 1, 0)
+    {
+      if(DEBUGGING) std::cout << "Init Player constructor\n";
+    }
+
+    //GET
+    void levelUp()
+    {
+      ++mLevel;
+      ++mDamagePoints;
+    }
+
+    bool hasWon() { return mLevel >= 20; }
+
+    //SET
+    int getLevel() { return mLevel; }
+
+};
+
 int main()
 {
+  std::cout << "Enter your name: ";
+  std::string playerName;
+  std::cin >> playerName;
+  Player player(playerName);
+
+  std::cout << "Welcome, " << player.getName() << ".\nYou have " << player.getHealthPoints() << "HP and are carrying " << player.getGold() << " gold.\n";
+
   Creature creature("Orc", 'o', 200, 10, 30);
   creature.addGold(10);
   creature.reduceHealth(123);
