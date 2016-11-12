@@ -7,25 +7,31 @@ class Person
     std::string mName;
     int mAge;
 
-  private:
+  public:
     Person(std::string name = "", int age = 0) : mAge(age), mName(name) {}
 
-    std::string getName() { return mName; }
-    int getAge() { return mAge; }
+    std::string getName() const { return mName; }
+    int getAge() const { return mAge; }
 };
 
-class BaseballPlayer
+class BaseballPlayer : public Person
 {
-  public:
+  private:
     double mBattingAverage;
     int mHomeRuns;
 
-  private:
+  public:
     BaseballPlayer(double battingAverage = 0.0, int homeRuns = 0) : mBattingAverage(battingAverage), mHomeRuns(homeRuns) {}
 
 };
 
 int main()
 {
+  BaseballPlayer joe;
+
+  joe.mName = "Joe";
+
+  std::cout << "The baseball player's name is " << joe.getName() << '\n';
+
   return 0;
 }
