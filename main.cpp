@@ -24,11 +24,34 @@ class FixedPoint2
       //and finally cast to int8_t to drop the decimals e.g. 62.0 -> 62
       mDecimal = static_cast<std::int8_t>(round((d - mBase) * 100));
     }
+
+    friend std::ostream& operator<< (std::ostream &out, const FixedPoint2 &fixedPoint)
+    {
+        out << fixedPoint.mBase << '.';
+
+        //if the decimal is a single digit, then we need to add 0 in front: e.g. 5 -> .05
+        if(fixedPoint.mDecimal < 10 && fixedPoint.mDecimal > -10)
+          out << '0';
+
+        // Because some compilers typedef std::int8_t as a char, we need to cast it to an int to ensure it prints as an integer
+  		  out << static_cast<int>(fp.m_decimal > 0 ? fp.m_decimal : -fp.m_decimal);
+
+  		  return out;
+    }
 };
 
 int main()
 {
-  FixedPoint2 a(10,55);
-  FixedPoint2 b(9.617);
+  FixedPoint2 a(34, 56);
+	std::cout << a << '\n';
+
+	FixedPoint2 b(9.617); // any decimal digits beyond 2 should be rounded to 2 decimals
+	std::cout << b << '\n';
+
+	FixedPoint2 c(5.01); // stored as 5.0099999... so we'll need to round this
+	std::cout << c << '\n';
+
+	FixedPoint2 d(-5.01); // stored as -5.0099999... so we'll need to round this
+	std::cout << d << '\n';
   return 0;
 }
