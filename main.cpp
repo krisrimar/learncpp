@@ -64,6 +64,14 @@ class Player : public Creature
 class Monster : public Creature
 {
   private:
+    struct MonsterData
+    {
+      std::string mName;
+      char mSymbol;
+      int mHealthPoints;
+      int mDamagePoints;
+      int mGold;
+    };
 
   public:
     enum Type
@@ -73,6 +81,21 @@ class Monster : public Creature
       SLIME,
       MAX_TYPES
     };
+
+    static MonsterData monsterData[MAX_TYPES];
+
+    //COSNTRUCTOR
+    Monster(Type type)
+      : Creature(monsterData[type].mName, monsterData[type].mSymbol, monsterData[type].mHealthPoints, monsterData[type].mDamagePoints, monsterData[type].mGold)
+    {
+    }
+};
+
+Monster::MonsterData Monster::monsterData[Monster::MAX_TYPES]
+{
+	{ "dragon", 'D', 20, 4, 100 },
+	{ "orc", 'o', 4, 2, 25 },
+	{ "slime", 's', 1, 1, 10 },
 };
 
 int main()
@@ -89,6 +112,9 @@ int main()
   creature.reduceHealth(123);
 
   std::cout << "The creatures name is " << creature.getName() << " its symbol is " << creature.getSymbol() << " it has " << creature.getHealthPoints() << "HP, the damage it makes is " << creature.getDamagePoints() << "DPH and the amount of gold it carries is " << creature.getGold() << "G\n";
+
+  Monster m(Monster::ORC);
+	std::cout << "A " << m.getName() << " (" << m.getSymbol() << ") was created.\n";
 
   return 0;
 }
