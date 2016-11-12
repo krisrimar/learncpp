@@ -15,7 +15,7 @@ class FixedPoint2
     {
       //get the non-fractional (mBase) component
       //this is done by casting double into an integer
-      mBase = tatic_cast<std::int16_t>(d); //truncates fraction
+      mBase = static_cast<std::int16_t>(d); //truncates fraction
 
       //now we get the fractional component
       //d - mBase leaves only the fractional portion e.g. 9.617 minus 9.0 = 0.617
