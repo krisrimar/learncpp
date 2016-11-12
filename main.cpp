@@ -1,4 +1,7 @@
+/* An example of a true deep copy of a dynamically created array (similar to how vector functions) */
+
 #include <iostream>
+#include <cassert>
 
 const bool DEBUGGING = true;
 
@@ -30,6 +33,7 @@ class IntArray
     {
       if(DEBUGGING) std::cout << "Destructor for object of class IntArray initialized" << '\n';
       delete[] mArray;
+      mArray = nullptr;
     }
 
     //for printing the array elements
@@ -41,15 +45,61 @@ class IntArray
       }
       return out;
     }
+
+    int& operator[] (const int index)
+    {
+      assert(index >= 0);
+      assert(index < mArrayLength);
+      return mArray[index]; //will return a reference to the position of the array element in the memory, so it can be altered
+    }
+
+    IntArray& operator= (const IntArray &array)
+    {
+      //self-assignment guard
+      if(this == &array)
+        return *this;
+
+      //if this array has been created already and carries some values - delete everything
+      delete[] mArray;
+      mArray = nullptr;
+
+      mArrayLength = array.mArrayLength;
+
+      //allocate a new array
+      mArray = new int[mArrayLength];
+
+      //copy elements from the original array to the new array
+      for(int count = 0; count < array.mArrayLength; ++count)
+        mArray[count] = array.mArray[count];
+
+      return *this;
+    }
 };
+
+IntArray fillArray()
+{
+  IntArray a(5);
+  a[0] = 5;
+  a[1] = 4;
+  a[2] = 3;
+  a[3] = 2;
+  a[4] = 1;
+
+  return a;
+}
 
 
 int main()
 {
-  IntArray a(10);
-  IntArray b = a;
+  IntArray a = fillArray();
 
-  std::cout << a;
+	std::cout << a << '\n';
 
-  return 0;
+	IntArray b(1);
+	a = a;
+	b = a;
+
+	std::cout << b << '\n';
+
+	return 0;
 }
