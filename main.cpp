@@ -171,7 +171,17 @@ void fightMonster(Player &player, Monster &monster)
   while(!monster.isDead() && !player.isDead());
   if(DEBUGGING) std::cout << "Exiting while loop\n";
 
-  if(monster.isDead()) std::cout << "You killed the " << monster.getName() << "\n";
+  if(monster.isDead())
+  {
+    std::cout << "You killed the " << monster.getName() << " and looted it for " << monster.getGold() << " gold\n";
+    player.addGold(monster.getGold());
+    player.levelUp();
+    std::cout << "You are now level " << player.getLevel() << "\n";
+  }
+  else
+  {
+    std::cout << "You died at level " << player.getLevel() << " with " << player.getGold() << "\n";
+  }
 
 }
 
