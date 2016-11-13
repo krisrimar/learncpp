@@ -52,22 +52,22 @@ class Player : public Creature
     int mLevel = 1;
 
   public:
-    Player(std::string name) : Creature(name, '@', 10, 1, 0)
+    Player(std::string name)
+      : Creature(name, '@', 10, 1, 0)
     {
       if(DEBUGGING) std::cout << "Init Player constructor\n";
     }
 
     //GET
+    bool hasWon() { return mLevel >= 20; }
+
+    //SET
+    int getLevel() { return mLevel; }
     void levelUp()
     {
       ++mLevel;
       ++mDamagePoints;
     }
-
-    bool hasWon() { return mLevel >= 20; }
-
-    //SET
-    int getLevel() { return mLevel; }
 
 };
 
@@ -124,6 +124,7 @@ void attackMonster(Player &player, Monster &monster)
     std::cout << "You:\t Lvl " << player.getLevel() << "\t" << player.getHealthPoints() << "HP\t" << player.getDamagePoints() << "DPH\n";
     std::cout << monster.getName() << ":\t" << monster.getHealthPoints() << "HP\t" << monster.getDamagePoints() << "DPH\n";
   }
+
   monster.reduceHealth(player.getDamagePoints());
   std::cout << "You hit the " << monster.getName() << " for " << player.getDamagePoints() << " damage\n";
 }
@@ -215,7 +216,7 @@ void playGame(Player &player)
     Monster monster = Monster::getRandomMonster();
     std::cout << "You have encountered a " << monster.getName() << " (" << monster.getSymbol() << ")\n";
     fightMonster(player, monster);
-    if(player.getLevel() >= 20)
+    if(player.hasWon())
     {
       std::cout << "You won! You managed to reach level " << player.getLevel() << "!\n";
     }
@@ -226,7 +227,7 @@ void playGame(Player &player)
 int main()
 {
   srand(static_cast<unsigned int>(time(0)));
-  getRandomNumber(0,Monster::Type::MAX_TYPES);
+  rand();
 
 
   std::cout << "Enter your name: ";
