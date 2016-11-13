@@ -124,6 +124,8 @@ void attackMonster(Player &player, Monster &monster)
     std::cout << "You:\t Lvl " << player.getLevel() << "\t" << player.getHealthPoints() << "HP\t" << player.getDamagePoints() << "DPH\n";
     std::cout << monster.getName() << ":\t" << monster.getHealthPoints() << "HP\t" << monster.getDamagePoints() << "DPH\n";
   }
+  monster.reduceHealth(player.getDamagePoints());
+  std::cout << "You hit the " << monster.getName() << " for " << player.getDamagePoints() << " damage\n";
 }
 
 void attackPlayer(Player &player, Monster &monster, int hitChance)
@@ -146,22 +148,31 @@ void fightMonster(Player &player, Monster &monster)
     }
     while(userChoice != 'f' && userChoice != 'r');
 
-  //check what the user has entered and based on his choice:
-  //either fight the monster or run away
-  //running away will cause the monster to attack you
-  //but only with a 50% chance of hitting you
-  if(userChoice == 'f')
-  {
-    attackMonster(player, monster);
-  }
-  else
-  {
-    attackPlayer(player, monster, 50);
-    break;
-  }
+    //check what the user has entered and based on his choice:
+    //either fight the monster or run away
+    //running away will cause the monster to attack you
+    //but only with a 50% chance of hitting you
+    if(userChoice == 'f')
+    {
+      attackMonster(player, monster);
+    }
+    else
+    {
+      attackPlayer(player, monster, 50);
+      break;
+    }
 
+    if(DEBUGGING)
+    {
+      std::cout << "Player dead (1 - yes, 0 - no):\t" << player.isDead() << "\n";
+      std::cout << "Monster dead (1 - yes, 0 - no):\t" << monster.isDead() << "\n";
+    }
   }
-  while(!monster.isDead() || !player.isDead());
+  while(!monster.isDead() && !player.isDead());
+  if(DEBUGGING) std::cout << "Exiting while loop\n";
+
+  if(monster.isDead()) std::cout << "You killed the " << monster.getName() << "\n";
+
 }
 
 
@@ -170,7 +181,7 @@ bool playGame(Player &player)
   while(true)
   {
     Monster monster = Monster::getRandomMonster();
-    std::cout << "You have encountered a " << monster.getName() << " " << monster.getSymbol() << '\n';
+    std::cout << "You have encountered a " << monster.getName() << " (" << monster.getSymbol() << ")\n";
     fightMonster(player, monster);
     return false;
   }
@@ -186,7 +197,7 @@ int main()
 
   Player player(name);
 
-  std::cout << "Welcome " << player.getName();
+  std::cout << "Welcome " << player.getName() << "\n";
 
   playGame(player);
 
