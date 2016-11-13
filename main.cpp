@@ -115,15 +115,42 @@ Monster::MonsterData Monster::monsterData[Monster::MAX_TYPES]
 	{ "slime", 's', 1, 1, 10 },
 };
 
+void fightMonster(Player &player, Monster &monster)
+{
+  char userChoice;
+  do
+  {
+    std::cout << "(R)un or (F)ight: ";
+
+    std::cin >> userChoice;
+  }
+  while(userChoice != 'f' && userChoice != 'r');
+}
+
+bool playGame(Player &player)
+{
+  while(true)
+  {
+    Monster monster = Monster::getRandomMonster();
+    std::cout << "You have encountered a " << monster.getName() << " " << monster.getSymbol() << '\n';
+    fightMonster(player, monster);
+    return false;
+  }
+}
+
 int main()
 {
   srand(static_cast<unsigned int>(time(0)));
 
-  for (int i = 0; i < 10; ++i)
-	{
-		Monster m = Monster::getRandomMonster();
-		std::cout << "A " << m.getName() << " (" << m.getSymbol() << ") was created.\n";
-	}
+  std::cout << "Enter your name: ";
+  std::string name;
+  std::cin >> name;
+
+  Player player(name);
+
+  std::cout << "Welcome " << player.getName();
+
+  playGame(player);
 
   return 0;
 }
