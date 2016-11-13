@@ -146,10 +146,10 @@ void attackPlayer(Player &player, Monster &monster, bool playerFleeing)
     }
   }
   player.reduceHealth(monster.getDamagePoints());
-  std::cout << "The " << monster.getName() << " hit your for " << monster.getDamagePoints() << " damage.\n";
+  std::cout << "The " << monster.getName() << " hit you for " << monster.getDamagePoints() << " damage.\n";
 }
 
-bool fightMonster(Player &player, Monster &monster)
+void fightMonster(Player &player, Monster &monster)
 {
   static char userChoice;
   //this loop will run until either the monster or the player is dead
@@ -190,12 +190,6 @@ bool fightMonster(Player &player, Monster &monster)
   if(DEBUGGING) std::cout << "Exiting while loop\n";
 
   //check whether you killed the monster or the monster killed you
-  if(player.isDead())
-  {
-    std::cout << "You died at level " << player.getLevel() << " with " << player.getGold() << "\n";
-    return false;
-  }
-
   if(monster.isDead())
   {
     std::cout << "You killed the " << monster.getName() << " and looted it for " << monster.getGold() << " gold\n";
@@ -207,28 +201,29 @@ bool fightMonster(Player &player, Monster &monster)
       std::cout << "You:\t Lvl " << player.getLevel() << "\t" << player.getHealthPoints() << "HP\t" << player.getDamagePoints() << "DPH\n";
     }
   }
-  return true;
+  if(player.isDead())
+  {
+    std::cout << "You died at level " << player.getLevel() << " with " << player.getGold() << " gold\n";
+  }
 }
 
 
-bool playGame(Player &player)
+void playGame(Player &player)
 {
-  while(true)
+  while(!player.isDead())
   {
     Monster monster = Monster::getRandomMonster();
     std::cout << "You have encountered a " << monster.getName() << " (" << monster.getSymbol() << ")\n";
-    //run this until the player dies
-    while(true)
-    {
-      fightMonster(player, monster);
-    }
-    return false;
+    fightMonster(player, monster);
   }
+  return;
 }
 
 int main()
 {
   srand(static_cast<unsigned int>(time(0)));
+  getRandomNumber(0,Monster::Type::MAX_TYPES);
+
 
   std::cout << "Enter your name: ";
   std::string name;
