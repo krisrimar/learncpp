@@ -215,6 +215,10 @@ void playGame(Player &player)
     Monster monster = Monster::getRandomMonster();
     std::cout << "You have encountered a " << monster.getName() << " (" << monster.getSymbol() << ")\n";
     fightMonster(player, monster);
+    if(player.getLevel() >= 20)
+    {
+      std::cout << "You won! You managed to reach level " << player.getLevel() << "!\n";
+    }
   }
   return;
 }
