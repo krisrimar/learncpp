@@ -4,6 +4,7 @@
 #include <ctime>
 
 const bool DEBUGGING = false;
+const bool MORE_INFO = true;
 
 int getRandomNumber(int min, int max)
 {
@@ -115,17 +116,54 @@ Monster::MonsterData Monster::monsterData[Monster::MAX_TYPES]
 	{ "slime", 's', 1, 1, 10 },
 };
 
+void attackMonster(Player &player, Monster &monster)
+{
+  if(MORE_INFO)
+  {
+    std::cout << "You choose to fight!\n";
+    std::cout << "You:\t Lvl " << player.getLevel() << "\t" << player.getHealthPoints() << "HP\t" << player.getDamagePoints() << "DPH\n";
+    std::cout << monster.getName() << ":\t" << monster.getHealthPoints() << "HP\t" << monster.getDamagePoints() << "DPH\n";
+  }
+}
+
+void attackPlayer(Player &player, Monster &monster, int hitChance)
+{
+
+}
+
 void fightMonster(Player &player, Monster &monster)
 {
-  char userChoice;
+  static char userChoice;
+  //this loop will run until either the monster or the player is dead
+  //until that moment, it will ask the user for his choice: wither to fight or to run
   do
   {
-    std::cout << "(R)un or (F)ight: ";
+    //this loop simply ensures the user enters 'f' or 'r' and not smth else
+    do
+    {
+      std::cout << "(R)un or (F)ight: ";
+      std::cin >> userChoice;
+    }
+    while(userChoice != 'f' && userChoice != 'r');
 
-    std::cin >> userChoice;
+  //check what the user has entered and based on his choice:
+  //either fight the monster or run away
+  //running away will cause the monster to attack you
+  //but only with a 50% chance of hitting you
+  if(userChoice == 'f')
+  {
+    attackMonster(player, monster);
   }
-  while(userChoice != 'f' && userChoice != 'r');
+  else
+  {
+    attackPlayer(player, monster, 50);
+    break;
+  }
+
+  }
+  while(!monster.isDead() || !player.isDead());
 }
+
 
 bool playGame(Player &player)
 {
