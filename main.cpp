@@ -4,7 +4,7 @@
 #include <ctime>
 
 const bool DEBUGGING = false;
-const bool MORE_INFO = true;
+const bool MORE_INFO = false;
 
 int getRandomNumber(int min, int max)
 {
@@ -128,12 +128,28 @@ void attackMonster(Player &player, Monster &monster)
   std::cout << "You hit the " << monster.getName() << " for " << player.getDamagePoints() << " damage\n";
 }
 
-void attackPlayer(Player &player, Monster &monster, int hitChance)
+void attackPlayer(Player &player, Monster &monster, bool playerFleeing)
 {
-
+  //check if player was fleeing when the monster attacked him (chose 'r')
+  if(playerFleeing)
+  {
+    //calculate the chance of user fleeing without being attacked by the monster
+    bool succeededToFlee = static_cast<bool>(getRandomNumber(0,1));
+    if(succeededToFlee)
+    {
+      std::cout << "You successfully fled.\n";
+      return;
+    }
+    else
+    {
+      std::cout << "You failed to flee.\n";
+    }
+  }
+  player.reduceHealth(monster.getDamagePoints());
+  std::cout << "The " << monster.getName() << " hit your for " << monster.getDamagePoints() << " damage.\n";
 }
 
-void fightMonster(Player &player, Monster &monster)
+bool fightMonster(Player &player, Monster &monster)
 {
   static char userChoice;
   //this loop will run until either the monster or the player is dead
@@ -158,9 +174,11 @@ void fightMonster(Player &player, Monster &monster)
     }
     else
     {
-      attackPlayer(player, monster, 50);
+      attackPlayer(player, monster, true);
       break;
     }
+
+    attackPlayer(player, monster, false);
 
     if(DEBUGGING)
     {
@@ -171,18 +189,25 @@ void fightMonster(Player &player, Monster &monster)
   while(!monster.isDead() && !player.isDead());
   if(DEBUGGING) std::cout << "Exiting while loop\n";
 
+  //check whether you killed the monster or the monster killed you
+  if(player.isDead())
+  {
+    std::cout << "You died at level " << player.getLevel() << " with " << player.getGold() << "\n";
+    return false;
+  }
+
   if(monster.isDead())
   {
     std::cout << "You killed the " << monster.getName() << " and looted it for " << monster.getGold() << " gold\n";
     player.addGold(monster.getGold());
     player.levelUp();
     std::cout << "You are now level " << player.getLevel() << "\n";
+    if(MORE_INFO)
+    {
+      std::cout << "You:\t Lvl " << player.getLevel() << "\t" << player.getHealthPoints() << "HP\t" << player.getDamagePoints() << "DPH\n";
+    }
   }
-  else
-  {
-    std::cout << "You died at level " << player.getLevel() << " with " << player.getGold() << "\n";
-  }
-
+  return true;
 }
 
 
@@ -192,7 +217,11 @@ bool playGame(Player &player)
   {
     Monster monster = Monster::getRandomMonster();
     std::cout << "You have encountered a " << monster.getName() << " (" << monster.getSymbol() << ")\n";
-    fightMonster(player, monster);
+    //run this until the player dies
+    while(true)
+    {
+      fightMonster(player, monster);
+    }
     return false;
   }
 }
