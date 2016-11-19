@@ -7,7 +7,7 @@ int main()
 {
   using namespace std;
 
-  ofstream outf("/Users/kris/Documents/Coding/learncpp/Sample.txt"); //create a file named Sample.dat
+  ofstream outf("/Users/kris/Documents/Coding/learncpp/Sample.txt", ios::app); //append to an already existing file
 
   //If the file could not have been opened for writing
   if(!outf)
