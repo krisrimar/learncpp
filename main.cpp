@@ -18,11 +18,11 @@ int main()
   }
 
   //Write two lines into the file
-  outf << "This is line 1" << endl;
-  outf << "This is line 2" << endl;
+  // outf << "This is line 1" << endl;
+  // outf << "This is line 2" << endl;
 
   //Read from a file
-  ifstream inf("/Users/kris/Documents/Coding/learncpp/Sample.txt");
+  ifstream inf("/Users/kris/Documents/Coding/learncpp/Sample.txt", ifstream::binary);
 
   if (!inf)
     {
@@ -37,6 +37,17 @@ int main()
     std::getline(inf, strInput);
     std::cout << strInput << endl;
   }
+
+  std::cout << "\n\n";
+
+  inf.seekg(0, ios::beg);
+  std::cout << "Trying to output:\n";
+  std::string currentInput;
+  std::getline(inf, currentInput);
+  std::cout << currentInput << endl;
+
+  inf.seekg(0, ios::end); // move to end of file
+  cout << inf.tellg();
 
   return 0;
 }
